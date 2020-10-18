@@ -1,0 +1,14 @@
+# vi Dockerfile3
+FROM ubuntu:14.04
+MAINTAINER "hongdw <kloudhong@gmail.com>"
+LABEL "purpose"="webserver practice"
+RUN apt-get update && apt-get -y install apache2
+# host의 현재 경로의 test.html 파일을 container의 /var/www/html로 복사
+ADD ./test.html /var/www/html
+# container가 실행되면 /var/www/html이 최초 경로
+WORKDIR /var/www/html
+# hello를 test.html에 삽입하는 ehco 명령
+RUN ["/bin/bash", "-c", "echo hello >> test.html"]
+EXPOSE 80
+# container를 실행하면 apache 데몬을 backgruond로 실행
+CMD apachectl -D FOREGROUND
